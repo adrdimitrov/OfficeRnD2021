@@ -1,7 +1,7 @@
 resource "aws_launch_configuration" "example" {
   image_id        = var.ami
   instance_type   = var.instance_type
-  security_groups = [aws_security_group.instance.id]
+  security_groups = [aws_security_group.asg_instances.id]
 
   lifecycle {
     create_before_destroy = true
@@ -64,13 +64,14 @@ resource "aws_autoscaling_schedule" "scale_in_at_night" {
   autoscaling_group_name = aws_autoscaling_group.example.name
 }
 
-resource "aws_security_group" "instance" {
-  name = "${var.cluster_name}-instance"
+resource "aws_security_group" "asg_instances" {
+  name   = "${var.cluster_name}-instance"
+  vpc_id = var.vpc_id
 }
 
 resource "aws_security_group_rule" "allow_server_http_inbound" {
   type              = "ingress"
-  security_group_id = aws_security_group.instance.id
+  security_group_id = aws_security_group.asg_instances.id
 
   from_port   = var.server_port
   to_port     = var.server_port

@@ -3,7 +3,7 @@ output "asg_name" {
   description = "The name of the Auto Scaling Group"
 }
 
-output "instance_security_group_id" {
-  value       = aws_security_group.instance.id
+output "asg_instance_security_group_id" {
+  value       = aws_security_group.asg_instances.id
   description = "The ID of the EC2 Instance Security Group"
 }

@@ -12,3 +12,8 @@ variable "subnet_ids" {
   description = "The subnet IDs to deploy to"
   type        = list(string)
 }
+
+variable "vpc_id" {
+  description = "the id of custom vpc to assign the security group"
+  type        = string
+}

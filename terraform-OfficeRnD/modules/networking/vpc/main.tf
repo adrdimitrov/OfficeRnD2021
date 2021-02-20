@@ -25,7 +25,6 @@ resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.public_subnet_cidr_blocks[count.index]
   availability_zone       = var.availability_zones[count.index]
-//  map_public_ip_on_launch = true
 }
 
 resource "aws_route_table" "private" {
@@ -73,10 +72,31 @@ resource "aws_eip" "nat" {
 }
 
 resource "aws_nat_gateway" "default" {
-  depends_on = ["aws_internet_gateway.vpc_ig"]
+  depends_on = [aws_internet_gateway.vpc_ig]
 
   count = length(var.public_subnet_cidr_blocks)
 
   allocation_id = aws_eip.nat[count.index].id
   subnet_id     = aws_subnet.public[count.index].id
 }
+
+resource "aws_key_pair" "bastion_key" {
+  count = var.create_key_pair ? 1 : 0
+
+  key_name        = var.key_name
+  public_key      = var.public_key
+}
+/*
+resource "aws_instance" "Bastion" {
+  ami                         = var.ami
+  instance_type               = "t2.micro"
+  key_name                    = aws_key_pair.bastion_key.id
+  subnet_id                   = aws_subnet.PublicSubnet.id
+  vpc_security_group_ids      = aws_security_group.BastionSG.id
+  associate_public_ip_address = true
+  source_dest_check           = false
+
+  tags = {
+    Name = "Bastion"
+  }
+} */

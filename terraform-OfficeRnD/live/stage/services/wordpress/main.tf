@@ -16,7 +16,7 @@ terraform {
 
 module "wordpress" {
 
-  source = "../../../../modules/services/wordpress"
+  source = "../../../../modules/services/wordpress/"
 
   environment            = var.environment
   db_remote_state_bucket = var.db_remote_state_bucket

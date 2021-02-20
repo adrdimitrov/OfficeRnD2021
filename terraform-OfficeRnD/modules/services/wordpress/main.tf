@@ -1,3 +1,21 @@
+resource "tls_private_key" "bastion_key" {
+  algorithm = "RSA"
+}
+
+module "vpc" {
+  source = "../../networking/vpc/"
+
+  client_name                = var.client_name
+  environment                = var.environment
+  vpc_cidr                   = var.vpc_cidr
+  public_subnet_cidr_blocks  = var.public_subnet_cidr_blocks
+  private_subnet_cidr_blocks = var.private_subnet_cidr_blocks
+  availability_zones         = var.availability_zones
+
+  key_name   = "bastion_key"
+  public_key = tls_private_key.bastion_key.public_key_openssh
+}
+
 module "asg" {
   source = "../../cluster/asg"
 
@@ -9,7 +27,8 @@ module "asg" {
   max_size           = var.max_size
   enable_autoscaling = var.enable_autoscaling
 
-  subnet_ids        = data.aws_subnet_ids.default.ids
+  vpc_id            = module.vpc.vpc_id
+  subnet_ids        = module.vpc.private_subnets
   target_group_arns = [aws_lb_target_group.asg.arn]
   health_check_type = "ELB"
 }
@@ -18,7 +37,8 @@ module "alb" {
   source = "../../networking/alb"
 
   alb_name   = "wordpress-${var.environment}"
-  subnet_ids = data.aws_subnet_ids.default.ids
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.public_subnets
 }
 
 // data "template_file" "user_data" {
@@ -36,7 +56,7 @@ resource "aws_lb_target_group" "asg" {
   name     = "wordpress-${var.environment}"
   port     = var.server_port
   protocol = "HTTP"
-  vpc_id   = data.aws_vpc.default.id
+  vpc_id   = module.vpc.vpc_id
 
   health_check {
     path                = "/"
@@ -75,6 +95,7 @@ data "terraform_remote_state" "db" {
   }
 }
 
+/*
 data "aws_vpc" "default" {
   default = true
 }
@@ -82,3 +103,4 @@ data "aws_vpc" "default" {
 data "aws_subnet_ids" "default" {
   vpc_id = data.aws_vpc.default.id
 }
+*/

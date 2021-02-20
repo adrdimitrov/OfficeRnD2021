@@ -33,6 +33,11 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
+variable "vpc_id" {
+  description = "The VPC ID to deploy to"
+  type        = string
+}
+
 variable "enable_autoscaling" {
   description = "If set to true, enable auto scaling"
   type        = bool

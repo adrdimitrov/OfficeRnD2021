@@ -25,7 +25,8 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_security_group" "alb" {
-  name = var.alb_name
+  name   = var.alb_name
+  vpc_id = var.vpc_id
 }
 
 resource "aws_security_group_rule" "allow_http_inbound" {
