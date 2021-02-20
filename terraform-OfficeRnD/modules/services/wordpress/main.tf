@@ -31,6 +31,8 @@ module "asg" {
   subnet_ids        = module.vpc.private_subnets
   target_group_arns = [aws_lb_target_group.asg.arn]
   health_check_type = "ELB"
+
+  inbound_ips       = module.alb.alb_security_group_id
 }
 
 module "alb" {
@@ -95,12 +97,3 @@ data "terraform_remote_state" "db" {
   }
 }
 
-/*
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default.id
-}
-*/

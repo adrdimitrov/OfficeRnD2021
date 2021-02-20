@@ -14,17 +14,17 @@ output "this_key_pair_fingerprint" {
 }
 
 output "vpc_id" {
-  description = "the id of the created custom vpc"
+  description = "The id of the VPC"
   value       = aws_vpc.vpc.id
 }
 
 output "public_subnets" {
-  description = "Public subnet ids of the custom vpc"
+  description = "Public subnet ids of the custom VPC"
   value       = aws_subnet.public.*.id
 }
 
 output "private_subnets" {
-  description = "Private subnet ids of the custom vpc"
+  description = "Private subnet ids of the custom VPC"
   value       = aws_subnet.private.*.id
 }
 

@@ -43,6 +43,11 @@ variable "enable_autoscaling" {
   type        = bool
 }
 
+variable "tcp_protocol" {
+  description = "Inbound protocol for the assigned security group"
+  default     = "tcp"
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.
@@ -77,3 +82,9 @@ variable "server_port" {
   type        = number
   default     = 80
 }
+
+variable "inbound_ips" {
+  description = "Ips to allow for inbound (should be set to alb security group)"
+  default     = null
+}
+

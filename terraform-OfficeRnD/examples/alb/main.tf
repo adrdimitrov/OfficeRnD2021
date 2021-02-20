@@ -21,15 +21,18 @@ module "alb" {
   subnet_ids = module.vpc.public_subnets
 }
 
-/* data "aws_vpc" "default" {
+/* ### to test with default VPC###
+###### set vpc_id and subnet_ids to appropriate values (above) in this case###
+data "aws_vpc" "default" {
   default = true
+}
+
+data "aws_subnet_ids" "default" {
+  vpc_id = data.aws_vpc.default.id
 }
 */
 
-//data "aws_subnet_ids" "custom" {
-//  vpc_id = module.vpc.vpc_id
-//}
-
+/*  ### to test with VPC module###
 resource "tls_private_key" "bastion_key" {
   algorithm = "RSA"
 }
@@ -47,3 +50,4 @@ module "vpc" {
   key_name   = "bastion_key"
   public_key = tls_private_key.bastion_key.public_key_openssh
 }
+*/

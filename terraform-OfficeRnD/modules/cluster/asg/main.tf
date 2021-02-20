@@ -73,49 +73,9 @@ resource "aws_security_group_rule" "allow_server_http_inbound" {
   type              = "ingress"
   security_group_id = aws_security_group.asg_instances.id
 
-  from_port   = var.server_port
-  to_port     = var.server_port
-  protocol    = local.tcp_protocol
-  cidr_blocks = local.all_ips
+  from_port                = var.server_port
+  to_port                  = var.server_port
+  protocol                 = var.tcp_protocol
+  source_security_group_id = var.inbound_ips
 }
 
-resource "aws_cloudwatch_metric_alarm" "high_cpu_utilization" {
-  alarm_name  = "${var.cluster_name}-high-cpu-utilization"
-  namespace   = "AWS/EC2"
-  metric_name = "CPUUtilization"
-
-  dimensions = {
-    AutoScalingGroupName = aws_autoscaling_group.example.name
-  }
-
-  comparison_operator = "GreaterThanThreshold"
-  evaluation_periods  = 1
-  period              = 300
-  statistic           = "Average"
-  threshold           = 90
-  unit                = "Percent"
-}
-
-resource "aws_cloudwatch_metric_alarm" "low_cpu_credit_balance" {
-  count = format("%.1s", var.instance_type) == "t" ? 1 : 0
-
-  alarm_name  = "${var.cluster_name}-low-cpu-credit-balance"
-  namespace   = "AWS/EC2"
-  metric_name = "CPUCreditBalance"
-
-  dimensions = {
-    AutoScalingGroupName = aws_autoscaling_group.example.name
-  }
-
-  comparison_operator = "LessThanThreshold"
-  evaluation_periods  = 1
-  period              = 300
-  statistic           = "Minimum"
-  threshold           = 10
-  unit                = "Count"
-}
-
-locals {
-  tcp_protocol = "tcp"
-  all_ips      = ["0.0.0.0/0"]
-}

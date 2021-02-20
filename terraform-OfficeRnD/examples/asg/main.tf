@@ -30,7 +30,8 @@ module "asg" {
   subnet_ids        = module.vpc.private_subnets
 }
 
-/*
+/* ### to test with default VPC###
+###### set vpc_id and subnet_ids to appropriate values (above) in this case###
 data "aws_vpc" "default" {
   default = true
 }
@@ -40,6 +41,7 @@ data "aws_subnet_ids" "default" {
 }
 */
 
+/*  ### to test with VPC module###
 resource "tls_private_key" "bastion_key" {
   algorithm = "RSA"
 }
@@ -57,3 +59,5 @@ module "vpc" {
   key_name   = "bastion_key"
   public_key = tls_private_key.bastion_key.public_key_openssh
 }
+*/
+
