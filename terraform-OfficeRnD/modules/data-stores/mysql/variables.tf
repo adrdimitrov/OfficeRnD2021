@@ -17,3 +17,10 @@ variable "db_password" {
   description = "The password for the database"
   type        = string
 }
+
+variable "identifier_prefix" {
+  description = "The identifier_prefix for the db"
+  type        = string
+  default     = "terraform-up-and-running"
+}
+

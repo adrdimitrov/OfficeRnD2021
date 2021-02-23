@@ -1,44 +1,18 @@
 # ---------------------------------------------------------------------------------------------------------------------
-# REQUIRED PARAMETERS
+# REQUIRED PARAMETERS FOR VPC module
 # You must provide a value for each of these parameters.
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "environment" {
+/*variable "environment" {
   description = "The name of the environment we're deploying to"
-  type        = string
-}
-
-variable "min_size" {
-  description = "The minimum number of EC2 Instances in the ASG"
-  type        = number
-}
-
-variable "max_size" {
-  description = "The maximum number of EC2 Instances in the ASG"
-  type        = number
-}
-
-variable "enable_autoscaling" {
-  description = "If set to true, enable auto scaling"
-  type        = bool
-}
-
-variable "db_remote_state_bucket" {
-  description = "The name of the S3 bucket used for the database's remote state storage"
-  type        = string
-}
-
-variable "db_remote_state_key" {
-  description = "The name of the key in the S3 bucket used for the database's remote state storage"
   type        = string
 }
 
 variable "client_name" {
   description = "The name of the VPC we are deploying in"
   type        = string
-  default     = "example"
 }
-
+*/
 variable "vpc_cidr" {
   default     = "10.0.0.0/16"
   type        = string
@@ -79,54 +53,6 @@ variable "public_key" {
   description = "The public key material."
   type        = string
   default     = ""
-}
-
-# database name, username and password for rds mysql
-variable "db_password" {
-  description = "The password for the database"
-  type        = string
-  default     = "Pa$$word"
-}
-
-variable "db_name" {
-  description = "The name to use for the database"
-  type        = string
-  default     = "wordpress"
-}
-
-variable "db_username" {
-  description = "The username for the database"
-  type        = string
-  default     = "wordpress"
-}
-
-# ---------------------------------------------------------------------------------------------------------------------
-# OPTIONAL PARAMETERS
-# These parameters have reasonable defaults.
-# ---------------------------------------------------------------------------------------------------------------------
-
-variable "ami" {
-  description = "The AMI to run in the cluster"
-  type        = string
-  default     = "ami-027cb17c7467f3c2e"
-}
-
-variable "instance_type" {
-  description = "The type of EC2 Instances to run (e.g. t2.micro)"
-  type        = string
-  default     = "t2.micro"
-}
-
-variable "server_port" {
-  description = "The port the server will use for HTTP requests"
-  type        = number
-  default     = 80
-}
-
-variable "identifier_prefix" {
-  description = "The identifier_prefix for the db"
-  type        = string
-  default     = "wordpress"
 }
 
 #------------------------------------------------------------------------------

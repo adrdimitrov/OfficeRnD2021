@@ -5,9 +5,10 @@ resource "tls_private_key" "bastion_key" {
 module "wordpress-db" {
   source = "../../data-stores/mysql"
 
-  db_name     = var.db_name
-  db_username = var.db_username
-  db_password = var.db_password
+  db_name             = var.db_name
+  db_username         = var.db_username
+  db_password         = var.db_password
+  identifier_prefix   = var.identifier_prefix
 }
 
 module "vpc" {
@@ -22,6 +23,15 @@ module "vpc" {
 
   key_name   = "bastion_key"
   public_key = tls_private_key.bastion_key.public_key_openssh
+}
+
+module "efs" {
+  source                 = "../../data-stores/efs/"
+
+  efs_name               = "efs"
+  vpc_id                 = module.vpc.vpc_id
+  subnet_ids             = module.vpc.private_subnets
+  efs_inbound_ips        = var.private_subnet_cidr_blocks
 }
 
 module "asg" {
