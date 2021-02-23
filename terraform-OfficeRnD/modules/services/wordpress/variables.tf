@@ -81,6 +81,25 @@ variable "public_key" {
   default     = ""
 }
 
+# database name, username and password for rds mysql
+variable "db_password" {
+  description = "The password for the database"
+  type        = string
+  default     = "Pa$$word"
+}
+
+variable "db_name" {
+  description = "The name to use for the database"
+  type        = string
+  default     = "wordpress"
+}
+
+variable "db_username" {
+  description = "The username for the database"
+  type        = string
+  default     = "wordpress"
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.
