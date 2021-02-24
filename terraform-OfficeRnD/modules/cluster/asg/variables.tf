@@ -88,3 +88,8 @@ variable "inbound_ips" {
   default     = null
 }
 
+variable "tags" {
+  description = "A map of tags to add to ECS Cluster"
+  type        = map(string)
+  default     = {}
+}
