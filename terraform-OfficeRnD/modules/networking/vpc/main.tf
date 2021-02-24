@@ -81,22 +81,48 @@ resource "aws_nat_gateway" "default" {
 }
 
 resource "aws_key_pair" "bastion_key" {
-  count = var.create_key_pair ? 1 : 0
+#  count = var.create_key_pair ? 1 : 0
 
   key_name        = var.key_name
   public_key      = var.public_key
 }
-/*
+
 resource "aws_instance" "Bastion" {
-  ami                         = var.ami
+  ami                         = "ami-0ec28fc9814fce254"
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.bastion_key.id
-  subnet_id                   = aws_subnet.PublicSubnet.id
-  vpc_security_group_ids      = aws_security_group.BastionSG.id
+  subnet_id                   = aws_subnet.public[0].id
+  vpc_security_group_ids      = [aws_security_group.bastion_sg.id]
   associate_public_ip_address = true
   source_dest_check           = false
 
   tags = {
     Name = "Bastion"
   }
-} */
+}
+
+resource "aws_security_group" "bastion_sg" {
+  name   = "bastion_sg"
+  vpc_id = aws_vpc.vpc.id
+}
+
+resource "aws_security_group_rule" "allow_ssh_inbound_bastion" {
+  type              = "ingress"
+  security_group_id = aws_security_group.bastion_sg.id
+
+  from_port                = "22"
+  to_port                  = "22"
+  protocol                 = "tcp"
+  cidr_blocks              = ["95.111.37.67/32"]
+}
+
+resource "aws_security_group_rule" "allow_all_outbound_bastion" {
+  type              = "egress"
+  security_group_id = aws_security_group.bastion_sg.id
+
+  from_port   = "0"
+  to_port     = "0"
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
