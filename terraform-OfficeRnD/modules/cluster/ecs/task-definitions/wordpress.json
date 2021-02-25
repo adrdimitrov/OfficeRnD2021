@@ -1,0 +1,21 @@
+{
+	"version": "3.7",
+	"services": {
+		"wordpress": {
+			"image": "wordpress:latest",
+			"ports": [
+				"80:80"
+			],
+			"restart": "always",
+			"environment": [
+				"WORDPRESS_DB_HOST=wordpress.cync8zqoxmrd.eu-west-3.rds.amazonaws.com",
+				"WORDPRESS_DB_USER=wordpress",
+				"WORDPRESS_DB_PASSWORD=wordpress",
+				"WORDPRESS_DB_NAME=wordpress"
+			]
+		}
+	},
+	"volumes": {
+		"db_data": null
+	}
+}

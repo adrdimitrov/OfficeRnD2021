@@ -3,6 +3,11 @@ output "alb_dns_name" {
   value       = aws_lb.example.dns_name
 }
 
+output "alb_arn" {
+  description = "The ALB Security Group ID"
+  value       = aws_lb.example.arn
+}
+
 output "alb_http_listener_arn" {
   description = "The ARN of the HTTP listener"
   value       = aws_lb_listener.http.arn

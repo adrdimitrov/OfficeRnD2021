@@ -65,6 +65,15 @@ variable "public_key" {
   type        = string
   default     = ""
 }
+#
+#
+#
+
+variable "alb_name" {
+  description = "The name of the load balancer"
+  default     = "wordpres-lb"
+}
+
 # ------------------------------ 
 #              ECS
 # ------------------------------
