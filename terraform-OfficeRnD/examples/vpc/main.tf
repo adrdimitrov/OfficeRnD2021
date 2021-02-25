@@ -2,11 +2,11 @@ provider "aws" {
   region = "eu-west-3"
 
 }
-
+/*
 resource "tls_private_key" "bastion_key" {
   algorithm = "RSA"
 }
-
+*/
 module "vpc" {
   source = "../../modules/networking/vpc/"
 
@@ -18,5 +18,4 @@ module "vpc" {
   availability_zones         = var.availability_zones
 
   key_name   = var.key_name
-  public_key = tls_private_key.bastion_key.public_key_openssh
 }

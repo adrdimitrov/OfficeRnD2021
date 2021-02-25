@@ -1,11 +1,11 @@
 output "alb_dns_name" {
   description = "The domain name of the load balancer"
-  value       = aws_lb.example.dns_name
+  value       = aws_lb.alb.dns_name
 }
 
 output "alb_arn" {
   description = "The ALB Security Group ID"
-  value       = aws_lb.example.arn
+  value       = aws_lb.alb.arn
 }
 
 output "alb_http_listener_arn" {

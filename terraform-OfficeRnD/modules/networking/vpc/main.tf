@@ -83,7 +83,11 @@ resource "aws_nat_gateway" "default" {
 resource "aws_key_pair" "bastion_key" {
 
   key_name        = var.key_name
-  public_key      = var.public_key
+  public_key      = tls_private_key.bastion_key.public_key_openssh
+}
+
+resource "tls_private_key" "bastion_key" {
+  algorithm = "RSA"
 }
 
 resource "aws_instance" "Bastion" {

@@ -1,4 +1,4 @@
-resource "aws_lb" "example" {
+resource "aws_lb" "alb" {
   name               = var.alb_name
   load_balancer_type = "application"
 
@@ -8,7 +8,7 @@ resource "aws_lb" "example" {
 }
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.example.arn
+  load_balancer_arn = aws_lb.alb.arn
   port              = local.http_port
   protocol          = "HTTP"
 
