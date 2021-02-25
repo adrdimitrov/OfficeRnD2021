@@ -17,6 +17,6 @@ module "vpc" {
   private_subnet_cidr_blocks = var.private_subnet_cidr_blocks
   availability_zones         = var.availability_zones
 
-  key_name   = "bastion_key"
+  key_name   = var.key_name
   public_key = tls_private_key.bastion_key.public_key_openssh
 }

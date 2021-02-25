@@ -28,3 +28,7 @@ output "private_subnets" {
   value       = aws_subnet.private.*.id
 }
 
+output "bastion_private_sg" {
+  description = "Security group allowing inbound traffic on port 22 from bastion host"
+  value       = aws_security_group.bastion_to_private.id
+}

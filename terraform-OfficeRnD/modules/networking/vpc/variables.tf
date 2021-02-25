@@ -46,7 +46,7 @@ variable "create_key_pair" {
 variable "key_name" {
   description = "The name for the key pair."
   type        = string
-  default     = null
+  default     = "Bastion"
 }
 
 variable "public_key" {

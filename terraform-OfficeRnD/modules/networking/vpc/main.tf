@@ -81,7 +81,6 @@ resource "aws_nat_gateway" "default" {
 }
 
 resource "aws_key_pair" "bastion_key" {
-#  count = var.create_key_pair ? 1 : 0
 
   key_name        = var.key_name
   public_key      = var.public_key
@@ -126,3 +125,17 @@ resource "aws_security_group_rule" "allow_all_outbound_bastion" {
   cidr_blocks = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group" "bastion_to_private" {
+  name   = "SSHBastionToPriv"
+  vpc_id = aws_vpc.vpc.id
+}
+
+resource "aws_security_group_rule" "allow_ssh_inbound_from_bastion" {
+  type              = "ingress"
+  security_group_id = aws_security_group.bastion_to_private.id
+
+  from_port                = "22"
+  to_port                  = "22"
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.bastion_sg.id
+}
