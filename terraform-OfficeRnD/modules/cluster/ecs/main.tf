@@ -2,10 +2,6 @@ provider "aws" {
   region = "eu-west-3"
 }
 
-resource "tls_private_key" "bastion_key" {
-  algorithm = "RSA"
-}
-
 module "vpc" {
   source = "../../networking/vpc/"
 
@@ -16,8 +12,7 @@ module "vpc" {
   private_subnet_cidr_blocks = var.private_subnet_cidr_blocks
   availability_zones         = var.availability_zones
 
-  key_name   = "bastion_key"
-  public_key = tls_private_key.bastion_key.public_key_openssh
+  key_name   = var.key_name
 }
 
 module "alb" {

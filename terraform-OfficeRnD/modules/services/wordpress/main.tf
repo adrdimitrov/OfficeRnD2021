@@ -21,8 +21,7 @@ module "vpc" {
   private_subnet_cidr_blocks = var.private_subnet_cidr_blocks
   availability_zones         = var.availability_zones
 
-  key_name   = "bastion_key"
-  public_key = tls_private_key.bastion_key.public_key_openssh
+  key_name   = var.key_name
 }
 
 module "efs" {
@@ -61,16 +60,18 @@ module "alb" {
   subnet_ids = module.vpc.public_subnets
 }
 
-// data "template_file" "user_data" {
-//  template = file("${path.module}/user-data.sh")
-//
-//  vars = {
-//    server_port = var.server_port
-//    db_address  = data.terraform_remote_state.db.outputs.address
-//    db_port     = data.terraform_remote_state.db.outputs.port
-//    server_text = var.server_text
-//  }
-//}
+/*
+data "template_file" "user_data" {
+  template = file("${path.module}/user-data.sh")
+
+  vars = {
+    server_port = var.server_port
+    db_address  = data.terraform_remote_state.db.outputs.address
+    db_port     = data.terraform_remote_state.db.outputs.port
+    server_text = var.server_text
+  }
+}
+*/
 
 resource "aws_lb_target_group" "asg" {
   name     = "wordpress-${var.environment}"
