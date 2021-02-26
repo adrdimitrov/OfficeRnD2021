@@ -10,8 +10,8 @@ variable "cluster_name" {
 }
 
 # --------------------------------------------------------------------------------------------------------------------
-
-
+#             VPC PARAMETERS
+# -------------------------------------------------------------------------------------------------------------------- 
 variable "environment" {
   description = "The name of the environment we're deploying to"
   type        = string
@@ -57,11 +57,21 @@ variable "create_key_pair" {
 variable "key_name" {
   description = "The name for the key pair."
   type        = string
-  default     = null
+  default     = "Bastion"
 }
 
 variable "public_key" {
   description = "The public key material."
   type        = string
   default     = ""
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+#             ALB PARAMETERS
+# ---------------------------------------------------------------------------------------------------------------------
+
+variable "alb_name" {
+  description = "The name of the ALB and all its resources"
+  type        = string
+  default     = "Wordpress-ALB"
 }

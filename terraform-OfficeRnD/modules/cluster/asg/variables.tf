@@ -85,8 +85,7 @@ variable "server_port" {
 
 variable "inbound_ips" {
   description = "Ips to allow for inbound (should be set to alb security group)"
-#  default     = null
-  default     = "10.0.0.0/8"
+  default     = null
 }
 
 variable "tags" {

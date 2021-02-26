@@ -1,4 +1,4 @@
-resource "aws_launch_configuration" "example" {
+resource "aws_launch_configuration" "wordpress-asg" {
   image_id        = var.ami
   instance_type   = var.instance_type
   security_groups = [aws_security_group.asg_instances.id]
@@ -8,10 +8,10 @@ resource "aws_launch_configuration" "example" {
   }
 }
 
-resource "aws_autoscaling_group" "example" {
-  name = "${var.cluster_name}-${aws_launch_configuration.example.name}"
+resource "aws_autoscaling_group" "wordpress-asg" {
+  name = "${var.cluster_name}-${aws_launch_configuration.wordpress-asg.name}"
 
-  launch_configuration = aws_launch_configuration.example.name
+  launch_configuration = aws_launch_configuration.wordpress-asg.name
 
   vpc_zone_identifier  = var.subnet_ids
 
@@ -37,7 +37,7 @@ resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
   max_size               = 10
   desired_capacity       = 10
   recurrence             = "0 9 * * *"
-  autoscaling_group_name = aws_autoscaling_group.example.name
+  autoscaling_group_name = aws_autoscaling_group.wordpress-asg.name
 }
 
 resource "aws_autoscaling_schedule" "scale_in_at_night" {
@@ -48,7 +48,7 @@ resource "aws_autoscaling_schedule" "scale_in_at_night" {
   max_size               = 10
   desired_capacity       = 2
   recurrence             = "0 17 * * *"
-  autoscaling_group_name = aws_autoscaling_group.example.name
+  autoscaling_group_name = aws_autoscaling_group.wordpress-asg.name
 }
 
 resource "aws_security_group" "asg_instances" {
@@ -65,4 +65,3 @@ resource "aws_security_group_rule" "allow_server_http_inbound" {
   protocol                 = var.tcp_protocol
   source_security_group_id = var.inbound_ips
 }
-
